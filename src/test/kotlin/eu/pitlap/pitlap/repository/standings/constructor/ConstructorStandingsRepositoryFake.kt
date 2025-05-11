@@ -28,7 +28,7 @@ class ConstructorStandingsRepositoryFake: ConstructorStandingRepository {
     }
 
     override fun <S : ConstructorStandingDto?> findAll(example: Example<S?>): List<S?> {
-        return standings.toList() as List<S?>
+        TODO("Not yet implemented")
     }
 
     override fun <S : ConstructorStandingDto?> findAll(

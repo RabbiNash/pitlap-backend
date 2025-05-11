@@ -1,9 +1,12 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
 	kotlin("jvm") version "1.9.25"
 	kotlin("plugin.spring") version "1.9.25"
 	id("org.springframework.boot") version "3.4.5"
 	id("io.spring.dependency-management") version "1.1.7"
-	id("org.sonarqube") version "2.8"
+	id ("org.sonarqube") version "6.0.1.5171"
 	jacoco
 }
 
@@ -57,7 +60,7 @@ tasks.jacocoTestReport {
 	}
 
 	classDirectories.setFrom(
-		fileTree("${buildDir}/classes/kotlin/main") {
+		fileTree("${layout.buildDirectory}/classes/kotlin/main") {
 			exclude(
 				"**/config/**",
 				"**/dto/**",
@@ -79,10 +82,24 @@ tasks.withType<Test> {
 	useJUnitPlatform()
 }
 
+fun loadDotEnv(): Map<String, String> {
+	val dotenvFile = rootProject.file(".env")
+	val props = Properties()
+	if (dotenvFile.exists()) {
+		dotenvFile.inputStream().use { props.load(it) }
+	}
+	return props.entries.associate { it.key.toString() to it.value.toString() }
+}
+
+val env = loadDotEnv()
+val sonarToken = env["SONAR"]
+
 sonarqube {
 	properties {
-		property("sonar.projectKey", "pitlap")
-		property("sonar.host.url", "https://sonarcloud.io")
-		property("sonar.login", System.getenv("SONAR_TOKEN"))
+		property("sonar.projectKey", "pitlap-server")
+		property("sonar.host.url", "http://localhost:9000")
+		property("sonar.projectName", "pitlap-server")
+        sonarToken?.let { property("sonar.token", it) }
 	}
 }
+

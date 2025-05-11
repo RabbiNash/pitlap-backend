@@ -27,14 +27,14 @@ class DriverStandingsRepositoryFake: DriverStandingRepository {
     }
 
     override fun <S : DriverStandingDto?> findAll(example: Example<S?>): List<S?> {
-        return standings.toList() as List<S?>
+        TODO("Not yet implemented")
     }
 
     override fun <S : DriverStandingDto?> findAll(
         example: Example<S?>,
         sort: Sort
     ): List<S?> {
-        return standings.toList() as List<S?>
+        TODO("Not yet implemented")
     }
 
     override fun <S : DriverStandingDto?> saveAll(entities: Iterable<S?>): List<S?> {

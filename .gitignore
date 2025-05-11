@@ -25,3 +25,6 @@ replay_pid*
 /build/
 *.lock
 /.gradle
+/.idea
+.env
+src/main/resources/application.properties
